@@ -170,12 +170,6 @@ x = jnp.array([1, 0, 0])
 y = jnp.array([0, 1, 0])
 z = jnp.array([0, 0, 1])
 
-def get_P_p(a, M_s, R_s):
-	return 2 * jnp.pi * ((a * R_s * Rsun) ** 3 / (G * M_s * Msun)) ** 0.5 / sec_per_day
-
-def get_a(P_p, M_s, R_s):
-    return ((P_p * sec_per_day / (2 * np.pi)) ** (2/3) * (G * M_s * Msun) ** (1/3) / (R_s * Rsun))
-
 @jit
 def maser(M_s, R_s, P_s, i_s, B_s, beta, phi_s0, a, i_p, lam, phi_p0, f, alpha, dalpha, times):
 
@@ -183,7 +177,7 @@ def maser(M_s, R_s, P_s, i_s, B_s, beta, phi_s0, a, i_p, lam, phi_p0, f, alpha, 
 	frequency_possible = step(2.8*B_s-f)
 
 	# Planet orbital period (days)
-	P_p = get_P_p(a, M_s, R_s)
+	P_p = 2 * jnp.pi * ((a * R_s * Rsun) ** 3 / (G * M_s * Msun)) ** 0.5 / sec_per_day
 
 	# Angles to rad
 	i_s *= rad_per_deg
